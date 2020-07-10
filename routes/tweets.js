@@ -45,7 +45,7 @@ router.put("/:id", async (req, res) => {
   );
 
   if (!tweet)
-    return res.status(404).send("The tweets with the given ID was not found.");
+    return res.status(404).send("The tweet with the given ID was not found.");
 
   res.send(tweet);
 });
@@ -59,11 +59,9 @@ router.delete("/:id", async (req, res) => {
   res.send(tweet);
 });
 
-router.get("/:tweet", async (req, res) => {
-
-  //console.log('COMING VALUE:', req.params.tweet);
-  const tweet = await Page.findById(req.params.id).select("-__v");
-
+router.get("/:id", validateObjectId, async (req, res) => {
+  const tweet = await Tweet.findById(req.params.id).select("-__v");
+  
   if (!tweet)
     return res.status(404).send("The tweets with the given id was not found.");
 
