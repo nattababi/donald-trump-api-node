@@ -7,7 +7,7 @@ const users = require('../routes/users');
 const auth = require('../routes/auth');
 const returns = require('../routes/returns');
 const pages = require('../routes/pages');
-const tweets = require('../routes/tweets');
+const twits = require('../routes/twits');
 const error = require('../middleware/error');
 
 module.exports = function(app) {
@@ -20,6 +20,6 @@ module.exports = function(app) {
   app.use('/api/auth', auth);
   app.use('/api/returns', returns);
   app.use('/api/pages', pages);
-  app.use('/api/tweets', tweets);
+  app.use('/api/twits', twits);
   app.use(error);
 }
