@@ -1,7 +1,7 @@
 const Joi = require('@hapi/joi');
 const mongoose = require('mongoose');
 
-const Twit = mongoose.model('Twit', new mongoose.Schema({
+const Tweet = mongoose.model('Tweet', new mongoose.Schema({
   caption: {
     type: String,
     required: true,
@@ -18,15 +18,15 @@ const Twit = mongoose.model('Twit', new mongoose.Schema({
   }
 }));
 
-function validateTwit(twit) {
+function validateTweet(tweet) {
   const schema = Joi.object({
     caption: Joi.string().min(2).required(),
     text: Joi.string().min(5).required(), 
     date: Joi.date().required()
   });
 
-  return schema.validate(twit);
+  return schema.validate(tweet);
 }
 
-exports.Twit = Twit; 
-exports.validate = validateTwit;
+exports.Tweet = Tweet; 
+exports.validate = validateTweet;

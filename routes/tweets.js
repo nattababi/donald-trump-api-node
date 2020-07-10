@@ -1,4 +1,4 @@
-const { Twit, validate } = require("../models/twit");
+const { Tweet, validate } = require("../models/tweet");
 const moment = require("moment");
 const mongoose = require("mongoose");
 const express = require("express");
@@ -6,24 +6,24 @@ const router = express.Router();
 const validateObjectId = require("../middleware/validateObjectId");
 
 router.get("/", async (req, res) => {
-  const twits = await Twit.find()
+  const tweets = await Tweet.find()
     .select("-__v");
-  res.send(twits);
-  console.log(twits);
+  res.send(tweets);
+  console.log(tweets);
 });
 
 router.post("/", async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  let twit = new Twit({
+  let tweet = new Tweet({
     caption: req.body.caption,
     text: req.body.text,
     date: req.body.date
   });
-  twit = await twit.save();
+  tweet = await tweet.save();
 
-  res.send(twit);
+  res.send(tweet);
 });
 
 router.put("/:id", async (req, res) => {
@@ -32,7 +32,7 @@ router.put("/:id", async (req, res) => {
   if (error) return res.status(400).send(error.details[0].message);
 
   console.log('');
-  const twit = await Page.findByIdAndUpdate(
+  const tweet = await Tweet.findByIdAndUpdate(
     req.params.id,
     {
       caption: req.body.caption,
@@ -44,28 +44,28 @@ router.put("/:id", async (req, res) => {
     }
   );
 
-  if (!twit)
-    return res.status(404).send("The twit with the given ID was not found.");
+  if (!tweet)
+    return res.status(404).send("The tweet with the given ID was not found.");
 
-  res.send(twit);
+  res.send(tweet);
 });
 
 router.delete("/:id", async (req, res) => {
-  const twit = await Twit.findByIdAndRemove(req.params.id);
+  const tweet = await Tweet.findByIdAndRemove(req.params.id);
 
-  if (!twit)
-    return res.status(404).send("The twits with the given ID was not found.");
+  if (!tweet)
+    return res.status(404).send("The tweets with the given ID was not found.");
 
-  res.send(twit);
+  res.send(tweet);
 });
 
 router.get("/:id", validateObjectId, async (req, res) => {
-  const twit = await Twit.findById(req.params.id).select("-__v");
+  const tweet = await Tweet.findById(req.params.id).select("-__v");
   
-  if (!twit)
-    return res.status(404).send("The twit with the given id was not found.");
+  if (!tweet)
+    return res.status(404).send("The tweet with the given id was not found.");
 
-  res.send(twit);
+  res.send(tweet);
 });
 
 module.exports = router;
