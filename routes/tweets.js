@@ -1,23 +1,15 @@
+//import axios from "axios";
+const axios = require("axios")
 const { Tweet, validate } = require("../models/tweet");
 const moment = require("moment");
 const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
-import axios from "axios";
 const validateObjectId = require("../middleware/validateObjectId");
-
-axios.defaults.baseURL = process.env.TWITTER_APP_API_URL;
 
 router.get("/", async (req, res) => {
 
-  //const tweets = await Tweet.find()
-  //  .select("-__v");
-  //res.send(tweets);
-
-
-  //console.log(tweets);
-
-  let token = "AAAAAAAAAAAAAAAAAAAAAJHxFwEAAAAAH6BsRCd1EKF6B8EG90V%2F1c70czg%3DoIftgz7sE1x89fd83KuP260cRiF5Cg6jZl78xUaRVYujOVnSFu"
+  let token = "AAAAAAAAAAAAAAAAAAAAAJHxFwEAAAAAH6BsRCd1EKF6B8EG90V%2F1c70czg%3DoIftgz7sE1x89fd83KuP260cRiF5Cg6jZl78xUaRVYujOVnSFu";
 
   const config = {
     headers: { Authorization: `Bearer ${token}` }
@@ -27,12 +19,13 @@ router.get("/", async (req, res) => {
   };
 
   let tweets = await axios.get(
-    'https://api.twitter.com/1.1/search/tweets.json?q=from:realDonaldTrump&result_type=mixed&count=2',
-    bodyParameters,
+    'https://api.twitter.com/1.1/search/tweets.json?q=from:realDonaldTrump&result_type=mixed&tweet_mode=extended&sort_by=created_at-desc',
     config
   );
 
-  res.send(tweets);
+  console.log(tweets.data.statuses);
+  
+  res.send(tweets.data.statuses);
 
 });
 
