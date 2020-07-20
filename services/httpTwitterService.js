@@ -1,6 +1,8 @@
-import axios from "axios";
+const config = require("config");
+const axios = require("axios");
 
-axios.defaults.baseURL = process.env.TWITTER_APP_API_URL;
+axios.defaults.baseURL = process.env.TWITTER_APP_API_URL || config.get("twitterApiUrl");
+axios.defaults.headers['Authorization'] = 'Bearer ' + config.get("token");
 
 axios.interceptors.response.use(null, error => {
   const expectedError =
@@ -15,7 +17,7 @@ axios.interceptors.response.use(null, error => {
   return Promise.reject(error);
 });
 
-export default {
+module.exports = {
   get: axios.get,
   post: axios.post,
   put: axios.put,
